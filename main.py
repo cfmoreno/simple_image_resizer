@@ -2,6 +2,11 @@ from PIL import Image
 import os
 import shutil
 
+# Set desired Width and Height (In Pixels):
+
+width = 512
+height = 512
+
 # Set images folder
 folder_path = "images"
 
@@ -12,7 +17,7 @@ for file in os.listdir(folder_path):
         # Open the image file
         img = Image.open(os.path.join(folder_path, file))
         # Resize the image to 512 x 512 pixels
-        img = img.resize((512, 512))
+        img = img.resize((width, height))
         # Save the resized image as a new file
         img.save(os.path.join(folder_path, "resized_" + file))
 
