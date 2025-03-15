@@ -1,35 +1,51 @@
 from PIL import Image
 import os
 import shutil
+import logging
 
-# Set desired Width and Height (In Pixels):
+# Configure logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-width = 512
-height = 512
+def resize_images(folder_path="images", width=512, height=512, resized_path="resized"):
+    """
+    Resizes images in a folder and moves the resized images to a new folder.
 
-# Set images folder
-folder_path = "images"
+    Args:
+        folder_path (str): The path to the folder containing the images.
+        width (int): The desired width of the resized images.
+        height (int): The desired height of the resized images.
+        resized_path (str): The path to the folder where resized images will be moved.
+    """
+    try:
+        # Create resized folder if it doesn't exist
+        if not os.path.exists(resized_path):
+            os.makedirs(resized_path)
 
-# Loop through the files in the folder
-for file in os.listdir(folder_path):
-    # Check if the file is an image
-    if file.endswith(".jpg") or file.endswith(".png"):
-        # Open the image file
-        img = Image.open(os.path.join(folder_path, file))
-        # Resize the image to 512 x 512 pixels
-        img = img.resize((width, height))
-        # Save the resized image as a new file
-        img.save(os.path.join(folder_path, "resized_" + file))
+        # Resize images
+        for file in os.listdir(folder_path):
+            if file.endswith((".jpg", ".png")):
+                img_path = os.path.join(folder_path, file)
+                try:
+                    img = Image.open(img_path)
+                    img = img.resize((width, height))
+                    resized_file = "resized_" + file
+                    resized_img_path = os.path.join(folder_path, resized_file)
+                    img.save(resized_img_path)
+                    logging.info(f"Resized {file} to {width}x{height}")
+                except Exception as e:
+                    logging.error(f"Error processing {file}: {e}")
 
-# Set Resized images folder        
-resized_path = "resized"
+        # Move resized images
+        for file in os.listdir(folder_path):
+            if file.startswith("resized_"):
+                try:
+                    shutil.move(os.path.join(folder_path, file), resized_path)
+                    logging.info(f"Moved {file} to {resized_path}")
+                except Exception as e:
+                    logging.error(f"Error moving {file}: {e}")
 
-# For the resized images, move them to the resized folder:
+    except Exception as e:
+        logging.error(f"An error occurred: {e}")
 
-for file in os.listdir(folder_path):
-    # Check if the file starts with resized_
-    if file.startswith("resized_"):
-        # Copy the file to the resized folder
-        shutil.copy(os.path.join(folder_path, file), resized_path)
-        # Delete the file from the original folder
-        os.remove(os.path.join(folder_path, file)) 
+if __name__ == "__main__":
+    resize_images()

@@ -1,17 +1,28 @@
-<h1>What is it?</h1>
+# Image Resizer Script
 
-A simple python script developed for resizing and organizing files.
+This script resizes images in a specified folder and moves the resized images to a separate folder.
 
-<h1>How to use it</h1>
+## Requirements
 
-0. Clone this repository.
+1.  Python 3.7 or higher.
+2.  Install the required Python packages using pip:
+    ```bash
+    pip install Pillow
+    ```
 
-1. On terminal, run the following commands: "pip install shutils" and "pip install Pillow" if not already installed.
+## How to Use
 
-2. Drag and drop your images in the "images" folder on the root of the repository (Create this folder if it does not exists).
+1.  **Clone the Repository:** Clone this repository to your local machine.
+2.  **Place Images:** Place the images you want to resize in the `images` folder (create it if it doesn't exist).
+3.  **Run the Script:** Execute the `image_resizer.py` script from the root folder:
+    ```bash
+    python image_resizer.py
+    ```
+4.  **View Resized Images:** The resized images will be available in the `resized` folder.
 
-3. Run main.py from the root folder.
+## Customization
 
-4. The resized images will be available in the "resized" folder.
-
-Notes: The default image resizing is 512x512, but you can change this by changing the variables "Width" and "Height" at the start of the script.
+* **Image Dimensions:** Modify the `width` and `height` variables in the `resize_images` function to change the dimensions of the resized images.
+* **Folder Paths:** Change the `folder_path` and `resized_path` variables to specify different input and output folders.
+* **Error Handling:** Enhance error handling by catching specific exceptions and providing more informative error messages.
+* **Logging:** Implement logging to record script activity and errors.
